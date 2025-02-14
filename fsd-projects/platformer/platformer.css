@@ -1,0 +1,14 @@
+body {
+  margin: 0px;
+}
+
+canvas {
+  /* background-color: rgba(55, 49, 45, 0.402); */
+  background-image: url("https://files.idyllic.app/files/static/2839122");
+  
+  margin: 20px;
+}
+
+img {
+  display: none;
+}
