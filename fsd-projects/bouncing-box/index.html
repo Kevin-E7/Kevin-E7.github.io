@@ -9,7 +9,7 @@
 		.box {
 			width: 70px;
 			height: 70px;
-			background-color: rgb(179, 93, 7);
+			background-color: rgb(249, 218, 139);
 			font-size: 300%;
 			text-align: center;
 			user-select: none;
@@ -18,10 +18,15 @@
 			top: 100px;
 			/* Change me! */
 			left: 300px;
+			border-color: black;
+			border-style: solid;
+			border-width: 2px;
 		}
 
 		.board {
 			height: 100vh;
+			background-image: url("https://www.pixelstalk.net/wp-content/uploads/image11/A-colorful-galaxy-with-bright-multi-hued-stars-and-cosmic-dust-showcasing-the-beauty-of-the-universe-in-vivid-detail.jpg");
+			background-size: cover;
 		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -52,8 +57,9 @@
 			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
+			function moveBoxTo(newPositionX, newPositionY) {
 				box.css("left", newPositionX);
+				box.css("top", newPositionY);
 			}
 
 			// changes the text displayed on the Box
@@ -68,16 +74,38 @@
 			// TODO 2 - Variable declarations 
 			var positionX = 0;
 			var points = 0;
-			var speed = 10;
+			var speedX = 10;
+			var positionY = 0;
+			var points = 0;
+			var speedY = 5;
+			var boardHeight = jQuery(window).height();
+
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
 			it should move the Box to a new location. If the box drifts off the screen
 			turn it around! 
 			*/
-			function update() {
-				positionX = positionX + speed;
-				moveBoxTo(positionX);
+			function update() {	
+				// check the position of the box
+				// if the box has reached the right edge, reverse the speed
+				if (positionX > boardWidth) {
+					speedX *= -1;	
+				}
+				if (positionX < 0) {
+						speedX *= -1;
+					}
+				if (positionY > boardHeight) {
+					speedY *= -1;
+				}
+				if (positionY < 0) {
+					speedY *=-1
+				}
 
+				// change the X position of the box	
+				positionX = positionX + speedX;
+				positionY = positionY + speedY;
+				// move the box
+				moveBoxTo(positionX, positionY);
 			};
 
 			/* 
@@ -86,10 +114,18 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
-				positionX = 0;
+				positionX = Math.random() * boardWidth;
+				positionY = Math.random() * boardHeight;
 				points++;
 				changeBoxText(points);
-				speed += 3;
+				speedX = 3 * points + 10;	
+				speedY = 2 * points + 10;
+				var red = Math.ceil(Math.random() * 255);
+				var green = Math.ceil(Math.random() * 255);
+				var blue = Math.ceil(Math.random() * 255);
+				var colorStr = "rgb("+red+", "+green+", "+blue+")";
+				box.css("background-color", colorStr);
+				console.log(colorStr);
 
 			};
 
